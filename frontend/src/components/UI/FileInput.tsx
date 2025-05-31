@@ -68,6 +68,7 @@ const FileInput: React.FC<Props> = ({
             variant="contained"
             onClick={activateInput}
             sx={{ height: "56px" }}
+            color="error"
           >
             Browse
           </Button>

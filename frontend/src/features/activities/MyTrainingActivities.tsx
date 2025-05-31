@@ -30,8 +30,8 @@ const MyTrainingActivities: React.FC = () => {
   }
 
   return (
-    <Box>
-      <Typography variant="h3" sx={{ mt: 3, mb: 2 }}>
+    <Box sx={{mb: 5}}>
+      <Typography variant="h3" sx={{ mt: 3, mb: 4 }}>
         My training activities
       </Typography>
       <hr />
@@ -39,7 +39,7 @@ const MyTrainingActivities: React.FC = () => {
       {groups.map((group) => (
         <Card
           key={group._id}
-          sx={{ cursor: "pointer", mt: 3 }}
+          sx={{ cursor: "pointer", mt: 4 }}
           onClick={() => navigate(`/${group.activity._id}`)}
         >
           <CardContent>

@@ -31,12 +31,12 @@ const MyActivities: React.FC = () => {
   }
 
   return (
-    <Container sx={{ mt: 4 }}>
+    <Container sx={{ mt: 6 }}>
       <Typography variant="h2">My Activities:</Typography>
       {activities.length === 0 ? (
         <Typography variant="body1">No activities found</Typography>
       ) : (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} sx={{mt: 5}}>
           {activities.map((activity) => (
             <Grid key={activity._id} size={{ xs: 12, sm: 6, md: 4 }}>
               <ActivityCard activity={activity} />

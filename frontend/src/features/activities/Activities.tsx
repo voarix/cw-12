@@ -33,7 +33,7 @@ const Activities: React.FC = () => {
   }
 
   return (
-    <Container sx={{ mt: 4 }}>
+    <Container sx={{ mt: 8, mb: 5 }}>
       {activities.length === 0 ? (
         <Typography>No activities found.</Typography>
       ) : (

@@ -105,7 +105,7 @@ const NewActivity = () => {
           {loading ? (
             <CircularProgress />
           ) : (
-            <Button type="submit" variant="contained" fullWidth>
+            <Button type="submit" variant="contained" color="error" fullWidth>
               Create Activity
             </Button>
           )}
