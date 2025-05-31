@@ -84,3 +84,18 @@ export const createActivity = createAsyncThunk<
     throw error;
   }
 });
+
+export const deleteActivity = createAsyncThunk<
+  void,
+  string,
+  { rejectValue: GlobalError }
+>("activities/deleteActivity", async (activityId, { rejectWithValue }) => {
+  try {
+    await axiosApi.delete(`/activities/${activityId}`);
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      return rejectWithValue(error.response.data);
+    }
+    throw error;
+  }
+});

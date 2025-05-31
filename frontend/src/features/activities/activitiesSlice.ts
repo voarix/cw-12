@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
 import type { GlobalError, IActivity, ValidationError } from "../../types";
 import {
-  createActivity,
+  createActivity, deleteActivity,
   fetchActivitiesByAuthor,
   fetchAllActivities,
   fetchMyActivities,
@@ -91,6 +91,20 @@ const activitiesSlice = createSlice({
       .addCase(createActivity.rejected, (state, { payload }) => {
         state.createLoading = false;
         state.createError = payload || null;
+      })
+
+      .addCase(deleteActivity.pending, (state) => {
+        state.fetchLoading = true;
+        state.error = null;
+      })
+      .addCase(deleteActivity.fulfilled, (state, {meta}) => {
+        state.fetchLoading = false;
+        const deletedId = meta.arg;
+        state.items = state.items.filter(activity => activity._id !== deletedId);
+      })
+      .addCase(deleteActivity.rejected, (state, { payload }) => {
+        state.fetchLoading = false;
+        state.error = payload || null;
       });
   },
 });

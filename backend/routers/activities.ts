@@ -143,10 +143,18 @@ activitiesRouter.post(
 
 activitiesRouter.delete("/:id", auth, async (req, res, next) => {
   try {
+    const user = req as RequestWithUser;
     const activity = await Activity.findById(req.params.id);
 
     if (!activity) {
       res.status(404).send({ message: "Activity not found" });
+      return;
+    }
+
+    if (activity.user.toString() !== user.user._id.toString()) {
+      res
+        .status(403)
+        .send({ message: "You are not creator to delete this activity" });
       return;
     }
 

@@ -20,6 +20,7 @@ import {
 } from "../../groups/groupsThunks.ts";
 import { selectGroup } from "../../groups/groupsSlice.ts";
 import { toast } from "react-toastify";
+import { deleteActivity } from "../activititesThunks.ts";
 
 interface Props {
   activity: IActivity;
@@ -34,6 +35,18 @@ const ActivityCard: React.FC<Props> = ({ activity }) => {
   const isParticipant = Boolean(
     group?.participants.find((p) => p._id === user?._id),
   );
+  const ownerAuthor = user?._id === activity.user._id;
+
+  const onDelete = async () => {
+    try {
+      await dispatch(deleteActivity(activity._id!)).unwrap();
+      toast.success("Activity deleted successfully!");
+      setOpen(false);
+    } catch (e) {
+      toast.error("Failed to delete activity");
+      console.error(e);
+    }
+  };
 
   const onJoin = async () => {
     try {
@@ -63,7 +76,13 @@ const ActivityCard: React.FC<Props> = ({ activity }) => {
 
   return (
     <>
-      <Card>
+      <Card
+      sx={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+      >
         {activity.image && (
           <CardMedia
             component="img"
@@ -93,6 +112,12 @@ const ActivityCard: React.FC<Props> = ({ activity }) => {
           <Typography variant="body2" color="text.secondary" sx={{ mt: 4 }}>
             Published: {activity.isPublished ? "Yes" : "NO"}
           </Typography>
+
+          {ownerAuthor && (
+            <Button variant="contained" color="error" onClick={onDelete} sx={{ mt: 4 }}>
+              Delete
+            </Button>
+          )}
         </CardContent>
       </Card>
 
