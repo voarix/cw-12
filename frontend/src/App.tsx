@@ -5,6 +5,7 @@ import AppToolbar from "./components/UI/AppToolbar/AppToolbar.tsx";
 import { Route, Routes } from "react-router-dom";
 import Login from "./features/users/Login.tsx";
 import Register from "./features/users/Register.tsx";
+import Activities from "./features/activities/Activities.tsx";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <main>
         <Container maxWidth="xl">
           <Routes>
+            <Route path="/" element={<Activities />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
 

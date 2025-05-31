@@ -6,6 +6,24 @@ export interface User {
   role: string;
   googleId?: string;
 }
+export interface IActivity {
+  _id: string;
+  user: {
+    _id: string;
+    email: string;
+    displayName?: string;
+  };
+  title: string;
+  description: string;
+  image: string | null;
+  isPublished: boolean;
+}
+
+export interface ActivityMutation {
+  title: string;
+  description: string;
+  image?: File | null;
+}
 
 export interface ValidationError {
   errors: {
