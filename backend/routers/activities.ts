@@ -5,6 +5,7 @@ import Activity from "../models/Activity";
 import auth, { RequestWithUser } from "../middleware/auth";
 import { Error } from "mongoose";
 import { activityImage } from "../middleware/multer";
+import Group from "../models/Group";
 
 const activitiesRouter = express.Router();
 
@@ -138,5 +139,22 @@ activitiesRouter.post(
     }
   },
 );
+
+activitiesRouter.delete("/:id", auth, async (req, res, next) => {
+  try {
+    const activity = await Activity.findById(req.params.id);
+
+    if (!activity) {
+      res.status(404).send({ message: "Activity not found" });
+      return;
+    }
+
+    await Group.deleteMany({ activity: activity._id });
+    await Activity.deleteOne({ _id: req.params.id });
+    res.send({ message: "Activity with him groups deleted successfully" });
+  } catch (e) {
+    next(e);
+  }
+});
 
 export default activitiesRouter;
