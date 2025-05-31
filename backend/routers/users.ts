@@ -37,7 +37,7 @@ usersRouter.post("/google", async (req, res, next) => {
     const displayName = payload["name"];
 
     if (!email) {
-      res.status(400).send({ error: "No enough user data to continue!" });
+      res.status(400).send({ error: "No enough users data to continue!" });
       return;
     }
 
