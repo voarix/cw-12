@@ -13,6 +13,7 @@ import {
 import { usersReducer } from "../features/users/usersSlice.ts";
 import { activitiesReducer } from "../features/activities/activitiesSlice.ts";
 import { groupsReducer } from "../features/groups/groupsSlice.ts";
+import { activitiesAdminReducer } from "../features/admin/activities/activitiesAdminSlice.ts";
 
 const usersPersistConfig = {
   key: "store:users",
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   users: persistReducer(usersPersistConfig, usersReducer),
   activities: activitiesReducer,
   groups: groupsReducer,
+  adminActivities: activitiesAdminReducer,
 });
 
 export const store = configureStore({

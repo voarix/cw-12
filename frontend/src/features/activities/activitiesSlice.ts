@@ -13,10 +13,6 @@ interface ActivitiesState {
   fetchLoading: boolean;
   error: ValidationError | null | GlobalError;
 
-  oneItem: IActivity | null;
-  fetchOneLoading: boolean;
-  fetchOneError: GlobalError | null | ValidationError;
-
   createLoading: boolean;
   createError: GlobalError | null | ValidationError;
 }
@@ -26,10 +22,6 @@ const initialState: ActivitiesState = {
   fetchLoading: false,
   error: null,
 
-  oneItem: null,
-  fetchOneLoading: false,
-  fetchOneError: null,
-
   createLoading: false,
   createError: null,
 };
@@ -38,12 +30,6 @@ export const selectActivities = (state: RootState) => state.activities.items;
 export const selectFetchLoading = (state: RootState) =>
   state.activities.fetchLoading;
 export const selectFetchError = (state: RootState) => state.activities.error;
-
-export const selectFetchOneLoading = (state: RootState) =>
-  state.activities.fetchOneLoading;
-export const selectOneActivity = (state: RootState) => state.activities.oneItem;
-export const selectFetchOneError = (state: RootState) =>
-  state.activities.fetchOneError;
 
 export const selectCreateLoading = (state: RootState) =>
   state.activities.createLoading;

@@ -24,18 +24,12 @@ activitiesRouter.get("/", async (req, res, next) => {
         if (user) {
           const isPublishedActivities = await Activity.find({
             isPublished: true,
-          }).populate(
-            "user",
-            "email displayName",
-          );
+          }).populate("user", "email displayName");
 
           const activities = await Activity.find({
             user: user._id,
             isPublished: false,
-          }).populate(
-            "user",
-            "email displayName",
-          );
+          }).populate("user", "email displayName");
 
           activities.push(...isPublishedActivities);
           res.send(activities);

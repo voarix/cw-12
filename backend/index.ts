@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import usersRouter from "./routers/users";
 import activitiesRouter from "./routers/activities";
 import groupsRouter from "./routers/groups";
+import adminRouter from "./routers/admin";
 
 const app = express();
 const port = 8000;
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use("/users", usersRouter);
 app.use("/activities", activitiesRouter);
 app.use("/groups", groupsRouter);
+app.use("/admin", adminRouter);
 
 const run = async () => {
   await mongoose.connect(config.db);

@@ -7,14 +7,17 @@ import {
 } from "./activitiesSlice.ts";
 import { fetchAllActivities } from "./activititesThunks.ts";
 import Spinner from "../../components/UI/Spinner/Spinner.tsx";
-import { Container, Grid, Typography } from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import ActivityCard from "./components/ActivityCard.tsx";
+import { selectUser } from "../users/usersSlice.ts";
+import { Link } from "react-router-dom";
 
 const Activities: React.FC = () => {
   const dispatch = useAppDispatch();
   const activities = useAppSelector(selectActivities);
   const loading = useAppSelector(selectFetchLoading);
   const error = useAppSelector(selectFetchError);
+  const user = useAppSelector(selectUser);
 
   useEffect(() => {
     dispatch(fetchAllActivities());
@@ -34,13 +37,35 @@ const Activities: React.FC = () => {
       {activities.length === 0 ? (
         <Typography>No activities found.</Typography>
       ) : (
-        <Grid container spacing={3} sx={{ mt: 4 }}>
-          {activities.map((activity) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={activity._id}>
-              <ActivityCard activity={activity} />
-            </Grid>
-          ))}
-        </Grid>
+        <>
+          <Grid>
+            {user && user.role === "admin" ? (
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#fff",
+                  color: "purple",
+                  "&:hover": {
+                    backgroundColor: "#eee",
+                  },
+                  mt: 2,
+                }}
+                component={Link}
+                to="/admin/activities"
+              >
+                Admin page
+              </Button>
+            ) : null}
+          </Grid>
+
+          <Grid container spacing={3} sx={{ mt: 4 }}>
+            {activities.map((activity) => (
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={activity._id}>
+                <ActivityCard activity={activity} />
+              </Grid>
+            ))}
+          </Grid>
+        </>
       )}
     </Container>
   );

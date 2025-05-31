@@ -8,7 +8,7 @@ const groupsRouter = express.Router();
 groupsRouter.get("/my-participate", auth, async (req, res, next) => {
   try {
     const reqUser = req as RequestWithUser;
-    const groups = await Group.find({participants: reqUser.user._id})
+    const groups = await Group.find({ participants: reqUser.user._id })
       .populate("user", "displayName email")
       .populate("activity", "title image description")
       .populate("participants", "displayName email");
@@ -21,7 +21,7 @@ groupsRouter.get("/my-participate", auth, async (req, res, next) => {
 groupsRouter.get("/my-created", auth, async (req, res, next) => {
   try {
     const reqUser = req as RequestWithUser;
-    const groups = await Group.find({user: reqUser.user._id})
+    const groups = await Group.find({ user: reqUser.user._id })
       .populate("user", "displayName email")
       .populate("activity", "title image description isPublished")
       .populate("participants", "displayName email");
@@ -33,13 +33,13 @@ groupsRouter.get("/my-created", auth, async (req, res, next) => {
 
 groupsRouter.get("/by-activity/:activityId", async (req, res, next) => {
   try {
-    const group = await Group.findOne({activity: req.params.activityId})
+    const group = await Group.findOne({ activity: req.params.activityId })
       .populate("user", "displayName email")
       .populate("activity", "title image description isPublished")
       .populate("participants", "displayName email");
 
     if (!group) {
-      res.status(404).send({message: "No group found"});
+      res.status(404).send({ message: "No group found" });
       return;
     }
 
@@ -49,7 +49,6 @@ groupsRouter.get("/by-activity/:activityId", async (req, res, next) => {
   }
 });
 
-
 groupsRouter.get("/:id", async (req, res, next) => {
   try {
     const group = await Group.findById(req.params.id)
@@ -58,13 +57,13 @@ groupsRouter.get("/:id", async (req, res, next) => {
       .populate("participants", "displayName email");
 
     if (!group) {
-      res.status(404).send({message: "Group not found"});
+      res.status(404).send({ message: "Group not found" });
       return;
     }
     res.send(group);
   } catch (e) {
     if (e instanceof Error.CastError) {
-      res.status(400).send({message: "Invalid Group ID"});
+      res.status(400).send({ message: "Invalid Group ID" });
       return;
     }
     next(e);
@@ -78,7 +77,7 @@ groupsRouter.delete(
     try {
       const group = await Group.findById(req.params.groupId);
       if (!group) {
-        res.status(404).send({message: "Group not found"});
+        res.status(404).send({ message: "Group not found" });
         return;
       }
 
@@ -89,16 +88,16 @@ groupsRouter.delete(
         p.equals(partiObjectId),
       );
       if (partiIndex === -1) {
-        res.status(400).send({message: "Participant not found"});
+        res.status(400).send({ message: "Participant not found" });
         return;
       }
 
       group.participants.splice(partiIndex, 1);
       await group.save();
-      res.send({message: "Participant removed successfully"});
+      res.send({ message: "Participant removed successfully" });
     } catch (e) {
       if (e instanceof Error.CastError) {
-        res.status(400).send({message: "Invalid group or participant ID"});
+        res.status(400).send({ message: "Invalid group or participant ID" });
         return;
       }
       next(e);
@@ -106,29 +105,32 @@ groupsRouter.delete(
   },
 );
 
-groupsRouter.post("/:groupId/add-participant/:userId", auth, async (req, res, next) => {
-  try {
-    const group = await Group.findById(req.params.groupId);
-    if (!group) {
-      res.status(404).send({message: "Group not found"});
-      return
+groupsRouter.post(
+  "/:groupId/add-participant/:userId",
+  auth,
+  async (req, res, next) => {
+    try {
+      const group = await Group.findById(req.params.groupId);
+      if (!group) {
+        res.status(404).send({ message: "Group not found" });
+        return;
+      }
+
+      const userIdToAdd = req.params.userId;
+      const userObjectId = new mongoose.Types.ObjectId(userIdToAdd);
+
+      group.participants.push(userObjectId);
+      await group.save();
+
+      res.send({ message: "User added to group successfully" });
+    } catch (e) {
+      if (e instanceof Error.CastError) {
+        res.status(400).send({ message: "Invalid group or user iD" });
+        return;
+      }
+      next(e);
     }
-
-    const userIdToAdd = req.params.userId;
-    const userObjectId = new mongoose.Types.ObjectId(userIdToAdd);
-
-    group.participants.push(userObjectId);
-    await group.save();
-
-    res.send({message: "User added to group successfully"});
-  } catch (e) {
-    if (e instanceof Error.CastError) {
-      res.status(400).send({message: "Invalid group or user iD"});
-      return
-    }
-    next(e);
-  }
-});
-
+  },
+);
 
 export default groupsRouter;

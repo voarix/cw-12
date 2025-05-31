@@ -14,6 +14,8 @@ import ProtectedRoute from "./components/UI/ProtectedRoute.tsx";
 import { useAppSelector } from "./app/hooks.ts";
 import { selectUser } from "./features/users/usersSlice.ts";
 import MyTrainingActivities from "./features/activities/MyTrainingActivities.tsx";
+import AdminLayout from "./features/admin/AdminLayout.tsx";
+import AdminActivities from "./features/admin/activities/AdminActivities.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -60,6 +62,18 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+
+            <Route
+              path="admin"
+              element={
+                <ProtectedRoute isAllowed={user && user.role === "admin"}>
+                  <AdminLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="" element={""} />
+              <Route path="activities" element={<AdminActivities />} />
+            </Route>
 
             <Route
               path="*"
