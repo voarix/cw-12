@@ -1,7 +1,11 @@
 import express from "express";
 import { OAuth2Client } from "google-auth-library";
 import config from "../config";
-import User, { generateAccessToken, generateRefreshToken, JWT_REFRESH_SECRET, } from "../models/User";
+import User, {
+  generateAccessToken,
+  generateRefreshToken,
+  JWT_REFRESH_SECRET,
+} from "../models/User";
 import { Error } from "mongoose";
 import jwt from "jsonwebtoken";
 import auth, { RequestWithUser } from "../middleware/auth";
