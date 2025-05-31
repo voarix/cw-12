@@ -43,29 +43,11 @@ groupsRouter.get("/by-activity/:activityId", async (req, res, next) => {
       return;
     }
 
-    res.send(group);
+    res.send({
+      ...group.toJSON(),
+      numberParticipants: group.participants.length,
+    });
   } catch (e) {
-    next(e);
-  }
-});
-
-groupsRouter.get("/:id", async (req, res, next) => {
-  try {
-    const group = await Group.findById(req.params.id)
-      .populate("user", "displayName email")
-      .populate("activity", "title description image")
-      .populate("participants", "displayName email");
-
-    if (!group) {
-      res.status(404).send({ message: "Group not found" });
-      return;
-    }
-    res.send(group);
-  } catch (e) {
-    if (e instanceof Error.CastError) {
-      res.status(400).send({ message: "Invalid Group ID" });
-      return;
-    }
     next(e);
   }
 });

@@ -44,6 +44,7 @@ export interface IGroup {
     displayName: string;
     email: string;
   }[];
+  numberParticipants: number;
 }
 
 export interface ValidationError {

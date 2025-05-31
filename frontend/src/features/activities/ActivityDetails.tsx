@@ -88,6 +88,10 @@ const ActivityDetails: React.FC = () => {
         Author: {group.user.displayName}
       </Typography>
 
+      <Typography variant="subtitle1" sx={{ mb: 2 }}>
+        Participants in group: {group.numberParticipants}
+      </Typography>
+
       {group.activity.image && (
         <img
           src={apiUrl + "/" + group.activity.image}
