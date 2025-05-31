@@ -99,11 +99,7 @@ const AdminActivities = () => {
           >
             <ListItemText
               primary={activity.title}
-              secondary={
-                <>
-                    {activity.user.email}
-                </>
-              }
+              secondary={<>{activity.user.email}</>}
             />
           </ListItem>
         ))}

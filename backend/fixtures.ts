@@ -49,7 +49,16 @@ const run = async () => {
   bob.refreshToken = generateRefreshToken(bob);
   await bob.save();
 
-  const [activity1, activity2, activity3, activity4] = await Activity.create([
+  const [
+    activity1,
+    activity2,
+    activity3,
+    activity4,
+    activity5,
+    activity6,
+    activity7,
+    activity8,
+  ] = await Activity.create([
     {
       user: john._id,
       title: "Утренняя пробежка по парку",
@@ -81,6 +90,36 @@ const run = async () => {
         "Собираемся у меня дома поиграть в Джуманджи, будет увлекательно фыдлоажыа",
       isPublished: true,
     },
+    {
+      user: jane._id,
+      title: "Альпинизм ",
+      image: "fixtures/mountain.jpg",
+      description: "Поднимемся до хижины рацека, будет увлекательно!!",
+      isPublished: true,
+    },
+    {
+      user: bob._id,
+      title: "Велопрогулка",
+      image: "fixtures/bike.jpeg",
+      description:
+        "Собираемся в 9:00 , будет мощнейший бревет 200км за 10 часов",
+      isPublished: false,
+    },
+    {
+      user: john._id,
+      title: "Встреча любителей книг",
+      image: "fixtures/books.jpeg",
+      description: "Обсуждаем 'Убийство по алфавиту', будут печеньки",
+      isPublished: true,
+    },
+    {
+      user: bob._id,
+      title: "Ночной поход в горы",
+      image: "fixtures/hiking.jpeg",
+      description:
+        "Наблюдение за звездами и ночевка в палатке. Берите спальники!",
+      isPublished: true,
+    },
   ]);
 
   await Group.create([
@@ -103,6 +142,26 @@ const run = async () => {
       user: bob._id,
       activity: activity4._id,
       participants: [bob._id],
+    },
+    {
+      user: jane._id,
+      activity: activity5._id,
+      participants: [jane._id, bob._id],
+    },
+    {
+      user: bob._id,
+      activity: activity6._id,
+      participants: [bob._id, john._id],
+    },
+    {
+      user: john._id,
+      activity: activity7._id,
+      participants: [john._id, jane._id],
+    },
+    {
+      user: bob._id,
+      activity: activity8._id,
+      participants: [bob._id, jane._id, john._id],
     },
   ]);
 

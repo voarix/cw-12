@@ -13,9 +13,12 @@ interface AdminActivitiesState {
   error: ValidationError | null | GlobalError;
 }
 
-export const selectAdminActivities = (state: RootState) => state.adminActivities.items;
-export const selectAdminLoading =  (state: RootState) => state.adminActivities.loading;
-export const selectAdminError = (state: RootState) => state.adminActivities.error;
+export const selectAdminActivities = (state: RootState) =>
+  state.adminActivities.items;
+export const selectAdminLoading = (state: RootState) =>
+  state.adminActivities.loading;
+export const selectAdminError = (state: RootState) =>
+  state.adminActivities.error;
 
 const initialState: AdminActivitiesState = {
   items: [],

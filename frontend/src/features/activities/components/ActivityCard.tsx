@@ -77,11 +77,11 @@ const ActivityCard: React.FC<Props> = ({ activity }) => {
   return (
     <>
       <Card
-      sx={{
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-      }}
+        sx={{
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
         {activity.image && (
           <CardMedia
@@ -114,7 +114,12 @@ const ActivityCard: React.FC<Props> = ({ activity }) => {
           </Typography>
 
           {ownerAuthor && (
-            <Button variant="contained" color="error" onClick={onDelete} sx={{ mt: 4 }}>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={onDelete}
+              sx={{ mt: 4 }}
+            >
               Delete
             </Button>
           )}
