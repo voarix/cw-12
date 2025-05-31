@@ -52,30 +52,33 @@ const run = async () => {
   const [activity1, activity2, activity3, activity4] = await Activity.create([
     {
       user: john._id,
-      title: 'Утренняя пробежка по парку',
-      image: 'fixtures/morningRun.jpg',
-      description: 'Собираемся у Ала арчи в 7:00.',
+      title: "Утренняя пробежка по парку",
+      image: "fixtures/morningRun.jpg",
+      description: "Собираемся у Ала арчи в 7:00.",
       isPublished: true,
     },
     {
       user: john._id,
-      title: 'Курс по основам Assembler',
-      image: 'fixtures/code.jpg',
-      description: 'Больше всего подходит для новичков, самое то чтобы вкатиться в АйТи',
+      title: "Курс по основам Assembler",
+      image: "fixtures/code.jpg",
+      description:
+        "Больше всего подходит для новичков, самое то чтобы вкатиться в АйТи",
       isPublished: false,
     },
     {
       user: jane._id,
-      title: 'Йога на свежем воздухе',
-      image: 'fixtures/yoga.jpg',
-      description: 'Расслабляющая йога на лужайке, если погода позволит. Коврики свои, но позитивное настроение общее.',
+      title: "Йога на свежем воздухе",
+      image: "fixtures/yoga.jpg",
+      description:
+        "Расслабляющая йога на лужайке, если погода позволит. Коврики свои, но позитивное настроение общее.",
       isPublished: true,
     },
     {
       user: bob._id,
-      title: 'Вечер настольных игр',
-      image: 'fixtures/game.jpg',
-      description: 'Собираемся у меня дома поиграть в Джуманджи, будет увлекательно фыдлоажыа',
+      title: "Вечер настольных игр",
+      image: "fixtures/game.jpg",
+      description:
+        "Собираемся у меня дома поиграть в Джуманджи, будет увлекательно фыдлоажыа",
       isPublished: true,
     },
   ]);
