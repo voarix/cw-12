@@ -6,8 +6,18 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./features/users/Login.tsx";
 import Register from "./features/users/Register.tsx";
 import Activities from "./features/activities/Activities.tsx";
+import AuthorActivities from "./features/activities/AuthorActivities.tsx";
+import ActivityDetails from "./features/activities/ActivityDetails.tsx";
+import MyActivities from "./features/activities/MyActivities.tsx";
+import NewActivity from "./features/activities/NewActivity.tsx";
+import ProtectedRoute from "./components/UI/ProtectedRoute.tsx";
+import { useAppSelector } from "./app/hooks.ts";
+import { selectUser } from "./features/users/usersSlice.ts";
+import MyTrainingActivities from "./features/activities/MyTrainingActivities.tsx";
 
 const App = () => {
+  const user = useAppSelector(selectUser);
+
   return (
     <>
       <CssBaseline />
@@ -21,6 +31,35 @@ const App = () => {
             <Route path="/" element={<Activities />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/author/:authorId" element={<AuthorActivities />} />
+            <Route path="/:id" element={<ActivityDetails />} />
+
+            <Route
+              path="/my-activities"
+              element={
+                <ProtectedRoute isAllowed={Boolean(user)}>
+                  <MyActivities />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/add-activity"
+              element={
+                <ProtectedRoute isAllowed={Boolean(user)}>
+                  <NewActivity />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="my-training-activities"
+              element={
+                <ProtectedRoute isAllowed={Boolean(user)}>
+                  <MyTrainingActivities />
+                </ProtectedRoute>
+              }
+            />
 
             <Route
               path="*"

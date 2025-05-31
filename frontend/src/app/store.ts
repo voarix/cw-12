@@ -12,6 +12,7 @@ import {
 } from "redux-persist";
 import { usersReducer } from "../features/users/usersSlice.ts";
 import { activitiesReducer } from "../features/activities/activitiesSlice.ts";
+import { groupsReducer } from "../features/groups/groupsSlice.ts";
 
 const usersPersistConfig = {
   key: "store:users",
@@ -22,6 +23,7 @@ const usersPersistConfig = {
 const rootReducer = combineReducers({
   users: persistReducer(usersPersistConfig, usersReducer),
   activities: activitiesReducer,
+  groups: groupsReducer,
 });
 
 export const store = configureStore({

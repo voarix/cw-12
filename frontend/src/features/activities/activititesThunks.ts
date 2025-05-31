@@ -1,7 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosApi from "../../axiosApi.ts";
 import { isAxiosError } from "axios";
-import type { ActivityMutation, GlobalError, IActivity, ValidationError, } from "../../types";
+import type {
+  ActivityMutation,
+  GlobalError,
+  IActivity,
+  ValidationError,
+} from "../../types";
 
 export const fetchAllActivities = createAsyncThunk<
   IActivity[],
@@ -19,6 +24,27 @@ export const fetchAllActivities = createAsyncThunk<
   }
 });
 
+export const fetchActivitiesByAuthor = createAsyncThunk<
+  IActivity[],
+  string,
+  { rejectValue: ValidationError | GlobalError }
+>(
+  "activities/fetchActivitiesByAuthor",
+  async (authorId, { rejectWithValue }) => {
+    try {
+      const response = await axiosApi.get<IActivity[]>(
+        `/activities/author/${authorId}`,
+      );
+      return response.data;
+    } catch (error) {
+      if (isAxiosError(error) && error.response) {
+        return rejectWithValue(error.response.data);
+      }
+      throw error;
+    }
+  },
+);
+
 export const fetchMyActivities = createAsyncThunk<
   IActivity[],
   void,
@@ -26,22 +52,6 @@ export const fetchMyActivities = createAsyncThunk<
 >("activities/fetchMyActivities", async (_, { rejectWithValue }) => {
   try {
     const response = await axiosApi.get<IActivity[]>("/activities/my");
-    return response.data;
-  } catch (error) {
-    if (isAxiosError(error) && error.response?.status === 400) {
-      return rejectWithValue(error.response.data);
-    }
-    throw error;
-  }
-});
-
-export const fetchActivityById = createAsyncThunk<
-  IActivity,
-  string,
-  { rejectValue: ValidationError }
->("activities/fetchActivityById", async (id, { rejectWithValue }) => {
-  try {
-    const response = await axiosApi.get<IActivity>(`/activities/${id}`);
     return response.data;
   } catch (error) {
     if (isAxiosError(error) && error.response?.status === 400) {

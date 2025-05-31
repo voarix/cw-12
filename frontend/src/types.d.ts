@@ -25,6 +25,27 @@ export interface ActivityMutation {
   image?: File | null;
 }
 
+export interface IGroup {
+  _id: string;
+  user: {
+    _id: string;
+    displayName: string;
+    email: string;
+  };
+  activity: {
+    _id: string;
+    title: string;
+    image?: string;
+    description: string;
+    isPublished?: boolean;
+  };
+  participants: {
+    _id: string;
+    displayName: string;
+    email: string;
+  }[];
+}
+
 export interface ValidationError {
   errors: {
     [key: string]: {

@@ -9,6 +9,7 @@ import {
   unsetUser,
 } from "../../../features/users/usersSlice.ts";
 import { toast } from "react-toastify";
+import { fetchAllActivities } from "../../../features/activities/activititesThunks.ts";
 
 interface Props {
   user: User;
@@ -33,6 +34,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
       dispatch(unsetUser());
       dispatch(unsetAccessToken());
       navigate("/");
+      dispatch(fetchAllActivities());
       toast.success("Logout is successful");
     } catch (e) {
       toast.error("Logout is failed");
@@ -43,7 +45,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
   return (
     <>
       <Link
-        to="/my-cocktails"
+        to="/my-training-activities"
         style={{
           color: "white",
           textDecoration: "none",
@@ -51,10 +53,10 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           fontWeight: 500,
         }}
       >
-        My Cocktails
+        My Training Activities
       </Link>
       <Link
-        to="/add-cocktail"
+        to="/my-activities"
         style={{
           color: "white",
           textDecoration: "none",
@@ -62,7 +64,18 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           fontWeight: 500,
         }}
       >
-        New Cocktail
+        My Groups
+      </Link>
+      <Link
+        to="/add-activity"
+        style={{
+          color: "white",
+          textDecoration: "none",
+          marginLeft: "6px",
+          fontWeight: 500,
+        }}
+      >
+        New Activity
       </Link>
       <Button onClick={handeClick} color="inherit">
         Hello, {user.displayName}

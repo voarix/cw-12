@@ -1,7 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
 import type { GlobalError, IActivity, ValidationError } from "../../types";
-import { createActivity, fetchActivityById, fetchAllActivities, fetchMyActivities } from "./activititesThunks.ts";
+import {
+  createActivity,
+  fetchActivitiesByAuthor,
+  fetchAllActivities,
+  fetchMyActivities,
+} from "./activititesThunks.ts";
 
 interface ActivitiesState {
   items: IActivity[];
@@ -36,8 +41,7 @@ export const selectFetchError = (state: RootState) => state.activities.error;
 
 export const selectFetchOneLoading = (state: RootState) =>
   state.activities.fetchOneLoading;
-export const selectOneActivity = (state: RootState) =>
-  state.activities.oneItem;
+export const selectOneActivity = (state: RootState) => state.activities.oneItem;
 export const selectFetchOneError = (state: RootState) =>
   state.activities.fetchOneError;
 
@@ -65,6 +69,19 @@ const activitiesSlice = createSlice({
         state.error = payload || null;
       })
 
+      .addCase(fetchActivitiesByAuthor.pending, (state) => {
+        state.fetchLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchActivitiesByAuthor.fulfilled, (state, { payload }) => {
+        state.fetchLoading = false;
+        state.items = payload;
+      })
+      .addCase(fetchActivitiesByAuthor.rejected, (state, { payload }) => {
+        state.fetchLoading = false;
+        state.error = payload || null;
+      })
+
       .addCase(fetchMyActivities.pending, (state) => {
         state.fetchLoading = true;
         state.error = null;
@@ -76,19 +93,6 @@ const activitiesSlice = createSlice({
       .addCase(fetchMyActivities.rejected, (state, { payload }) => {
         state.fetchLoading = false;
         state.error = payload || null;
-      })
-
-      .addCase(fetchActivityById.pending, (state) => {
-        state.fetchOneLoading = true;
-        state.fetchOneError = null;
-      })
-      .addCase(fetchActivityById.fulfilled, (state, { payload }) => {
-        state.fetchOneLoading = false;
-        state.oneItem = payload;
-      })
-      .addCase(fetchActivityById.rejected, (state, { payload }) => {
-        state.fetchOneLoading = false;
-        state.fetchOneError = payload || null;
       })
 
       .addCase(createActivity.pending, (state) => {

@@ -1,23 +1,24 @@
 import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   selectActivities,
   selectFetchError,
   selectFetchLoading,
 } from "./activitiesSlice.ts";
-import { fetchAllActivities } from "./activititesThunks.ts";
-import Spinner from "../../components/UI/Spinner/Spinner.tsx";
-import { Container, Grid, Typography } from "@mui/material";
+import { fetchMyActivities } from "./activititesThunks.ts";
 import ActivityCard from "./components/ActivityCard.tsx";
+import { Container, Grid, Typography } from "@mui/material";
+import Spinner from "../../components/UI/Spinner/Spinner.tsx";
 
-const Activities: React.FC = () => {
+const MyActivities: React.FC = () => {
   const dispatch = useAppDispatch();
+
   const activities = useAppSelector(selectActivities);
   const loading = useAppSelector(selectFetchLoading);
   const error = useAppSelector(selectFetchError);
 
   useEffect(() => {
-    dispatch(fetchAllActivities());
+    dispatch(fetchMyActivities());
   }, [dispatch]);
 
   if (loading) return <Spinner />;
@@ -31,12 +32,13 @@ const Activities: React.FC = () => {
 
   return (
     <Container sx={{ mt: 4 }}>
+      <Typography variant="h2">My Activities:</Typography>
       {activities.length === 0 ? (
-        <Typography>No activities found.</Typography>
+        <Typography variant="body1">No activities found</Typography>
       ) : (
-        <Grid container spacing={3} sx={{ mt: 4 }}>
+        <Grid container spacing={3}>
           {activities.map((activity) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={activity._id}>
+            <Grid key={activity._id} size={{ xs: 12, sm: 6, md: 4 }}>
               <ActivityCard activity={activity} />
             </Grid>
           ))}
@@ -46,4 +48,4 @@ const Activities: React.FC = () => {
   );
 };
 
-export default Activities;
+export default MyActivities;

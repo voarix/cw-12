@@ -53,7 +53,7 @@ activitiesRouter.get("/", async (req, res, next) => {
 
     const activities = await Activity.find({ isPublished: true }).populate(
       "user",
-      "email",
+      "email displayName",
     );
     res.send(activities);
   } catch (e) {
@@ -67,7 +67,7 @@ activitiesRouter.get("/my", auth, async (req, res, next) => {
 
     const activities = await Activity.find({ user: user._id }).populate(
       "user",
-      "email",
+      "email displayName",
     );
     res.send(activities);
   } catch (e) {
@@ -99,6 +99,7 @@ activitiesRouter.get("/author/:authorId", async (req, res, next) => {
     next(e);
   }
 });
+
 activitiesRouter.get("/:id", async (req, res, next) => {
   try {
     const activity = await Activity.findById(req.params.id).populate(
